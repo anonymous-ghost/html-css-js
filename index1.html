@@ -6,7 +6,13 @@
   <title>Payment Form</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/style1.css">
-  <style> </style>
+  <style>
+    /* CSS для приховання помилок */
+    .error {
+      color: red;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -23,7 +29,7 @@
         <p id="email-error" class="error">Please enter a valid email.</p>
 
         <label for="card-number">Card Number:</label>
-        <input type="tel" id="card-number" name="card-number" pattern="[0-9]{13,16}" required>
+        <input type="text" id="card-number" name="card-number" pattern="[0-9]{13,16}" required>
         <p id="card-error" class="error">Please enter a valid card number (13-16 digits).</p>
 
         <label for="expiry-date">Expiry Date:</label>
@@ -67,6 +73,6 @@
     </section>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js"></script> <!-- Підключення скрипта -->
 </body>
 </html>
