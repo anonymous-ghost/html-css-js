@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    /* Загальні стилі */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      max-width: 500px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .payment-form form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 100%;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .expiry-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .expiry-group select {
+      width: 48%;
+    }
+
+    .button {
+      background: linear-gradient(to right, #36d1dc, #5b86e5);
+      color: white;
+      border: none;
+      padding: 15px;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+    }
+
+    .button:hover {
+      background: linear-gradient(to right, #36a1c1, #3a6fe5);
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    }
+
+    .small-text {
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <section class="payment-form">
+      <h2>Payment Information</h2>
+      <form action="https://paymentgateway.com/process-payment" method="POST" onsubmit="return validateForm()">
+        
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <p id="name-error" class="error">Please enter your name.</p>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <p id="email-error" class="error">Please enter a valid email.</p>
+
+        <label for="card-number">Card Number:</label>
+        <input type="tel" id="card-number" name="card-number" pattern="[0-9]{13,16}" required>
+        <p id="card-error" class="error">Please enter a valid card number (13-16 digits).</p>
+
+        <label for="expiry-date">Expiry Date:</label>
+        <div class="expiry-group">
+          <select id="expiry-month" name="expiry-month" required>
+            <option value="" disabled selected>Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          
+          <select id="expiry-year" name="expiry-year" required>
+            <option value="" disabled selected>Year</option>
+            <script>
+              const currentYear = new Date().getFullYear();
+              for (let i = currentYear; i <= currentYear + 15; i++) {
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </div>
+        <p id="expiry-error" class="error">Please select a valid expiry date.</p>
+
+        <label for="cvv">CVV:</label>
+        <input type="tel" id="cvv" name="cvv" pattern="[0-9]{3,4}" required>
+        <p id="cvv-error" class="error">Please enter a valid CVV (3-4 digits).</p>
+
+        <button type="submit" class="button">Submit Payment</button>
+      </form>
+
+      <p class="small-text">Your information is secure and will not be shared.</p>
+    </section>
+  </div>
+
+  <script>
+    function validateForm() {
+      let isValid = true;
+
+      // Name validation
+      const name = document.getElementById('name');
+      const nameError = document.getElementById('name-error');
+      if (name.value.trim() === "") {
+        nameError.style.display = 'block';
+        isValid = false;
+      } else {
+        nameError.style.display = 'none';
+      }
+
+      // Email validation
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('email-error');
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(email.value)) {
+        emailError.style.display = 'block';
+        isValid = false;
+      } else {
+        emailError.style.display = 'none';
+      }
+
+      // Card number validation
+      const card = document.getElementById('card-number');
+      const cardError = document.getElementById('card-error');
+      if (!card.value.match(/^\d{13,16}$/)) {
+        cardError.style.display = 'block';
+        isValid = false;
+      } else {
+        cardError.style.display = 'none';
+      }
+
+      // Expiry date validation
+      const expiryMonth = document.getElementById('expiry-month');
+      const expiryYear = document.getElementById('expiry-year');
+      const expiryError = document.getElementById('expiry-error');
+      if (expiryMonth.value === "" || expiryYear.value === "") {
+        expiryError.style.display = 'block';
+        isValid = false;
+      } else {
+        expiryError.style.display = 'none';
+      }
+
+      // CVV validation
+      const cvv = document.getElementById('cvv');
+      const cvvError = document.getElementById('cvv-error');
+      if (!cvv.value.match(/^\d{3,4}$/)) {
+        cvvError.style.display = 'block';
+        isValid = false;
+      } else {
+        cvvError.style.display = 'none';
+      }
+
+      return isValid;
+    }
+  </script>
+
+</body>
+</html>
