@@ -1,0 +1,11 @@
+CREATE TABLE payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,   -- Унікальний ідентифікатор запису
+    name TEXT NOT NULL,                     -- Ім'я користувача
+    email TEXT NOT NULL,                    -- Електронна пошта
+    amount REAL NOT NULL,                   -- Сума платежу
+    currency TEXT NOT NULL,                 -- Валюта платежу
+    card_number TEXT NOT NULL,              -- Номер картки
+    expiry_month TEXT NOT NULL,             -- Місяць закінчення дії картки
+    expiry_year TEXT NOT NULL,              -- Рік закінчення дії картки
+    cvv TEXT NOT NULL                       -- CVV код
+);

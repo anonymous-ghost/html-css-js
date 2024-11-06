@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style1.css">
+  <style>
+    /* CSS для приховання помилок */
+    .error {
+      color: red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="payment-form">
+      <h2>Payment Information</h2>
+      <form action="https://paymentgateway.com/process-payment" method="POST" onsubmit="return validateForm()">
+        
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <p id="name-error" class="error">Please enter your name.</p>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <p id="email-error" class="error">Please enter a valid email.</p>
+
+        <label for="card-number">Card Number:</label>
+        <input type="text" id="card-number" name="card-number" pattern="[0-9]{13,16}" required>
+        <p id="card-error" class="error">Please enter a valid card number (13-16 digits).</p>
+
+        <label for="expiry-date">Expiry Date:</label>
+        <div class="expiry-group">
+          <select id="expiry-month" name="expiry-month" required>
+            <option value="" disabled selected>Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          
+          <select id="expiry-year" name="expiry-year" required>
+            <option value="" disabled selected>Year</option>
+            <script>
+              const currentYear = new Date().getFullYear();
+              for (let i = currentYear; i <= currentYear + 15; i++) {
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </div>
+        <p id="expiry-error" class="error">Please select a valid expiry date.</p>
+
+        <label for="cvv">CVV:</label>
+        <input type="tel" id="cvv" name="cvv" pattern="[0-9]{3,4}" required>
+        <p id="cvv-error" class="error">Please enter a valid CVV (3-4 digits).</p>
+
+        <button type="submit" class="button">Submit Payment</button>
+      </form>
+
+      <p class="small-text">Your information is secure and will not be shared.</p>
+    </section>
+  </div>
+
+  <script src="script.js"></script> <!-- Підключення скрипта -->
+</body>
+</html>
